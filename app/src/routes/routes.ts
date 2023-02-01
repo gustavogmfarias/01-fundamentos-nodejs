@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
-import { Database } from "./database.js";
-import { buildRoutePath } from "./utils/build-route-path.js";
+import { Task } from "../models/Task.js";
+import { Database } from "../server/database.js";
+import { buildRoutePath } from "../utils/build-route-path.js";
 
 const database = new Database();
 
@@ -8,7 +9,7 @@ export const routes = [
   {
     method: "GET",
     path: buildRoutePath("/users"),
-    handler: (req, res) => {
+    handler: (req: any, res: any) => {
       const { search } = req.query;
 
       const users = database.select("users", {
@@ -21,17 +22,13 @@ export const routes = [
   },
   {
     method: "POST",
-    path: buildRoutePath("/users"),
-    handler: (req, res) => {
-      const { name, email } = req.body;
+    path: buildRoutePath("/tasks"),
+    handler: (req: any, res: any) => {
+      const { title, description } = req.body;
 
-      const user = {
-        id: randomUUID(),
-        name,
-        email,
-      };
+      const task = new Task(title, description);
 
-      database.insert("users", user);
+      database.insert("tasks", task);
 
       return res.writeHead(201).end();
     },
@@ -39,7 +36,7 @@ export const routes = [
   {
     method: "PUT",
     path: buildRoutePath("/users/:id"),
-    handler: (req, res) => {
+    handler: (req: any, res: any) => {
       const { id } = req.params;
       const { name, email } = req.body;
 
@@ -54,7 +51,7 @@ export const routes = [
   {
     method: "DELETE",
     path: buildRoutePath("/users/:id"),
-    handler: (req, res) => {
+    handler: (req: any, res: any) => {
       const { id } = req.params;
 
       database.delete("users", id);
