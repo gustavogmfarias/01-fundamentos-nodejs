@@ -3,7 +3,6 @@
         "outDir": "dist/js",
         "target": "ES2022",
         "noEmitOnError": true,
-        "noImplicitAny": true,
         "moduleResolution": "node",
 
     },

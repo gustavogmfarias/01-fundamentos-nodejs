@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node dist/js/main.js",
+    "dev": "node dist/js/server/server.js",
     "compile": "tsc",
     "watch": "tsc -w"
   },

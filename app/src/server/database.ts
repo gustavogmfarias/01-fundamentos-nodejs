@@ -1,26 +1,26 @@
-import fs from "node:fs/promises";
+import * as fs from "node:fs/promises";
 
-const databasePath = new URL("../db.json", import.meta.url);
+const databasePath = new URL("../db.json", __dirname);
 
 export class Database {
-  #database = {};
+  private database = {};
 
   constructor() {
     fs.readFile(databasePath, "utf8")
       .then((data) => {
-        this.#database = JSON.parse(data);
+        this.database = JSON.parse(data);
       })
       .catch(() => {
-        this.#persist();
+        this.persist();
       });
   }
 
-  #persist() {
-    fs.writeFile(databasePath, JSON.stringify(this.#database));
+  private persist(): void {
+    fs.writeFile(databasePath, JSON.stringify(this.database));
   }
 
   select(table, search) {
-    let data = this.#database[table] ?? [];
+    let data = this.database[table] ?? [];
 
     if (search) {
       data = data.filter((row) => {
@@ -34,32 +34,32 @@ export class Database {
   }
 
   insert(table, data) {
-    if (Array.isArray(this.#database[table])) {
-      this.#database[table].push(data);
+    if (Array.isArray(this.database[table])) {
+      this.database[table].push(data);
     } else {
-      this.#database[table] = [data];
+      this.database[table] = [data];
     }
 
-    this.#persist();
+    this.persist();
 
     return data;
   }
 
   update(table, id, data) {
-    const rowIndex = this.#database[table].findIndex((row) => row.id === id);
+    const rowIndex = this.database[table].findIndex((row) => row.id === id);
 
     if (rowIndex > -1) {
-      this.#database[table][rowIndex] = { id, ...data };
-      this.#persist();
+      this.database[table][rowIndex] = { id, ...data };
+      this.persist();
     }
   }
 
   delete(table, id) {
-    const rowIndex = this.#database[table].findIndex((row) => row.id === id);
+    const rowIndex = this.database[table].findIndex((row) => row.id === id);
 
     if (rowIndex > -1) {
-      this.#database[table].splice(rowIndex, 1);
-      this.#persist();
+      this.database[table].splice(rowIndex, 1);
+      this.persist();
     }
   }
 }

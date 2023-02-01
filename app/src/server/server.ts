@@ -1,10 +1,10 @@
-import http from "node:http";
+import * as http from "http";
 
-import { json } from "./middlewares/json.js.js";
-import { routes } from "./routes.js.js";
-import { extractQueryParams } from "./utils/extract-query-params.js.js";
+import { json } from "../middlewares/json.js";
+import { routes } from "../routes/routes.js";
+import { extractQueryParams } from "../utils/extract-query-params.js";
 
-const server = http.createServer(async (req, res) => {
+const server = http.createServer(async (req: any, res: any) => {
   const { method, url } = req;
 
   await json(req, res);
