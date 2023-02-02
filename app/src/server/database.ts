@@ -1,6 +1,7 @@
 import * as fs from "node:fs/promises";
 
-const databasePath = new URL("../db.json", __dirname);
+console.log(import.meta.url);
+const databasePath = new URL("../db.json", import.meta.url);
 
 export class Database {
   private database = {};

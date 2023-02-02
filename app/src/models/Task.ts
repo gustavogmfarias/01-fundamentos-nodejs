@@ -1,21 +1,12 @@
 import { randomUUID } from "node:crypto";
 
 export class Task {
-  private readonly id: string;
-  private _title: string;
-  private _description: string;
-  private _createdAt: Date;
-  private _completedAt: Date;
-  private _updatedAt: Date;
+  public readonly id: string = randomUUID();
+  private _createdAt: Date = new Date();
+  private _completedAt: Date = null;
+  private _updatedAt: Date = this._createdAt;
 
-  constructor(title: string, description: string) {
-    this.id = randomUUID();
-    this._title = title;
-    this._description = description;
-    this._createdAt = new Date();
-    this._completedAt = null;
-    this._updatedAt = this._createdAt;
-  }
+  constructor(private _title: string, private _description: string) {}
 
   public get title(): string {
     return this._title;

@@ -5,14 +5,14 @@ const database = new Database();
 export const routes = [
     {
         method: "GET",
-        path: buildRoutePath("/users"),
+        path: buildRoutePath("/tasks"),
         handler: (req, res) => {
             const { search } = req.query;
-            const users = database.select("users", {
-                name: search,
-                email: search,
+            const tasks = database.select("tasks", {
+                title: search,
+                description: search,
             });
-            return res.end(JSON.stringify(users));
+            return res.end(JSON.stringify(tasks));
         },
     },
     {
@@ -27,23 +27,23 @@ export const routes = [
     },
     {
         method: "PUT",
-        path: buildRoutePath("/users/:id"),
+        path: buildRoutePath("/tasks/:id"),
         handler: (req, res) => {
             const { id } = req.params;
-            const { name, email } = req.body;
-            database.update("users", id, {
-                name,
-                email,
+            const { title, description } = req.body;
+            database.update("tasks", id, {
+                title,
+                description,
             });
             return res.writeHead(204).end();
         },
     },
     {
         method: "DELETE",
-        path: buildRoutePath("/users/:id"),
+        path: buildRoutePath("/tasks/:id"),
         handler: (req, res) => {
             const { id } = req.params;
-            database.delete("users", id);
+            database.delete("tasks", id);
             return res.writeHead(204).end();
         },
     },
