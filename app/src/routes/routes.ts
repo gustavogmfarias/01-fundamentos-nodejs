@@ -41,8 +41,8 @@ export const routes = [
       const { title, description } = req.body;
 
       database.update("tasks", id, {
-        title,
-        description,
+        _title: title,
+        _description: description,
       });
 
       return res.writeHead(204).end();
@@ -55,6 +55,18 @@ export const routes = [
       const { id } = req.params;
 
       database.delete("tasks", id);
+
+      return res.writeHead(204).end();
+    },
+  },
+
+  {
+    method: "PATCH",
+    path: buildRoutePath("/tasks/:id/complete"),
+    handler: (req: any, res: any) => {
+      const { id } = req.params;
+
+      database.markAsCompleted("tasks", id);
 
       return res.writeHead(204).end();
     },

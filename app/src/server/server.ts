@@ -27,4 +27,10 @@ const server = http.createServer(async (req: any, res: any) => {
   return res.writeHead(404).end();
 });
 
-server.listen(3333);
+try {
+  server.listen(3333);
+  console.log("Server is runnning");
+} catch (e) {
+  console.log(e.message);
+} finally {
+}
